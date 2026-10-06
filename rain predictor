@@ -1,0 +1,88 @@
+#include<stdio.h>
+void displayMenu();
+void enterWeatherData(int *humidity, int *temperature, int *windSpeed);
+int predictRain(int humidity, int temperature, int windSpeed);
+void displayWeatherData(int humidity, int temperature, int windSpeed);
+
+int main() {
+    int choice;
+    int humidity = -1, temperature = -1, windSpeed = -1;
+
+    do {
+        displayMenu();
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                enterWeatherData(&humidity, &temperature, &windSpeed);
+                break;
+
+            case 2:
+                if (humidity == -1) {
+                    printf("Please enter weather data first.\n");
+                } else {
+                    if (predictRain(humidity, temperature, windSpeed))
+                        printf("Prediction: It is likely to rain.\n");
+                    else
+                        printf("Prediction: No rain expected.\n");
+                }
+                break;
+
+            case 3:
+                if (humidity == -1) {
+                    printf("No data available. Please enter weather data.\n");
+                } else {
+                    displayWeatherData(humidity, temperature, windSpeed);
+                }
+                break;
+
+            case 4:
+                printf("Exiting the program.\n");
+                break;
+
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+
+        printf("\n");
+
+    } while (choice != 4);
+
+    return 0;
+}
+
+void displayMenu() {
+    printf("=== Rain Predictor Menu ===\n");
+    printf("1. Enter Weather Data\n");
+    printf("2. Predict Rain\n");
+    printf("3. Display Weather Data\n");
+    printf("4. Exit\n");
+}
+
+void enterWeatherData(int *humidity, int *temperature, int *windSpeed) {
+    printf("Enter humidity percentage (0-100): ");
+    scanf("%d", humidity);
+
+    printf("Enter temperature in Celsius: ");
+    scanf("%d", temperature);
+
+    printf("Enter wind speed in km/h: ");
+    scanf("%d", windSpeed);
+
+    printf("Weather data recorded successfully.\n");
+}
+
+int predictRain(int humidity, int temperature, int windSpeed) {
+    if (humidity > 70 && temperature < 35 && windSpeed > 10)
+        return 1;
+    else
+        return 0;
+}
+
+void displayWeatherData(int humidity, int temperature, int windSpeed) {
+    printf("Humidity: %d%%\n", humidity);
+    printf("Temperature: %d\u00b0C\n", temperature);
+    printf("Wind Speed: %d km/h\n", windSpeed);
+}
+
